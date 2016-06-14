@@ -19,12 +19,23 @@ function get_instances_count()
 
 function get_volume_gb()
 {
-    euca-describe-volumes --region "$ACCOUNT@" | grep VOLUM | awk '{sum += $3} END {print sum" GB"}'
+    echo $DATE
+    echo "quantity(GB)"
+    euca-describe-volumes --region "$ACCOUNT@" | grep VOLUM | awk '{sum += $3} END {print sum}'
 }
 
 function get_stacks_quantity()
 {
+    echo $DATE
+    echo "stacks"
     euform-describe-stacks --region "$ACCOUNT@" | grep STA | wc -l
+}
+
+function get_elb_count()
+{
+    echo $DATE
+    echo "elb"
+    eulb-describe-lbs --region "$ACCOUNT@" | grep LOAD | wc -l
 }
 
 case $1 in
@@ -39,5 +50,8 @@ case $1 in
 	;;
     instances_count)
 	get_instances_count
+	;;
+    elb_count)
+	get_elb_count
 	;;
 esac
